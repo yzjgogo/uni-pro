@@ -1,27 +1,38 @@
+/**
+ 1，pages.json文件类似微信开发者工具里的app.json文件
+*/
 {
+	// 2，"pages"对应微信开发者工具里的app.json下的"pages",区别是这里的pages是{对象}数组,微开里是"String"数组
 	"pages": [{
 			"path": "pages/home/home",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/cate/cate",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/cart/cart",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/my/my",
+			//3，"style"对应微开里的pages/my/my.json，用于设置当前页面的配置
 			"style": {
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
 		}
 	],
+	//4，"subPackages"对应微开里的app.json里的"subPackages"，用于配置分页
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [{
+			"path": "goods_detail/goods_detail",
+			"style": {}
+		}]
+	}],
+	//5，"tabBar"对应微开里的app.json里的"tabBar"，用于配置tabBar
 	"tabBar": {
 		"selectedColor": "#C00000",
 		"list": [{
@@ -50,9 +61,10 @@
 			}
 		]
 	},
+	//6，"globalStyle"对应微开里的app.json里的"window"，对所有页面的配置其效果，参考"3"，对单个页面的配置起效果
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "黑马优购",
+		"navigationBarTitleText": "抢多多",
 		"navigationBarBackgroundColor": "#C00000",
 		"backgroundColor": "#F8F8F8",
 		"app-plus": {
