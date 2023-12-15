@@ -1,5 +1,7 @@
 <template>
 	<view>
+		
+		<view style="position: sticky;top: 0px;height: 50px;width: 100%;background-color: green;z-index: 999;">吸顶效果演示</view>
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
 			<swiper-item v-for="(item,i) in swiperList" :key="i">
 				<!-- 声明式导航 open-type='navigate' -->
@@ -34,9 +36,33 @@
 		
 		<view class="two-view">12，定义公共方法挂到uni对象上，参考：main.js -> uni.$showMsg</view>
 		
-		<view class="one-view">声明式导航：navigator标签，点击轮播图跳转到商品详情</view>
+		<view class="one-view">13，声明式导航：navigator标签，点击轮播图跳转到商品详情</view>
 		
-		<view class="two-view" @click="switchToCateTab">编程式导航：switchTab,点击本按钮切换到分类tab</view>
+		<view class="two-view" @click="switchToCateTab">14-1，编程式导航：switchTab,点击本按钮切换到分类tab</view>
+		<view class="line-view"></view>
+		<view class="two-view" @click="navitageToDetail">14-2，编程式导航：navigateTo</view>
+		
+		<view class="one-view" @click="getSystemInfo">15，获取系统信息：参考：https://uniapp.dcloud.net.cn/api/system/info.html#getsysteminfosync</view>
+		
+		<view class="two-view">16，uni的scroll-view的用法：与小程序一样：https://uniapp.dcloud.net.cn/component/scroll-view.html#</view>
+		
+		<view class="one-view">
+			17，可以自定义图标，可以使用字体图标、阿里巴巴矢量图标库，官网：https://uniapp.dcloud.net.cn/component/uniui/uni-icons.html<br>
+			<uni-icons type="auth" size="25"></uni-icons>
+		</view>
+		
+		<view class="two-view">18，自定义组件<br>
+			a，如果uni-pro下没有components文件夹，先新建components文件夹；<br>
+			b，鼠标在components文件夹右键 -> 新建组件 -> 新建组件弹窗.jpg；<br>
+			c，剩下的就和vue一样了
+			<my-search :info="'我是传入的属性'" @click.native="doCompClick"></my-search>
+		</view>
+		<view class="one-view">
+			19，吸顶效果：参考顶部的"吸顶效果演示"view；<br>
+			a，position:sticky 实现吸顶；<br>
+			b，position:0px 距离顶部0px<br>
+			c，z-index:999 防止被其他view遮挡
+		</view>
 	</view>
 </template>
 
@@ -48,6 +74,7 @@
 				swiperList: []
 			};
 		},
+		//这个onLoad对应微信小程序的onLoad
 		onLoad() {
 			//页面加载即调用获取轮播图数据
 			this.getSwiperList()
@@ -69,10 +96,30 @@
 				uni.$showMsg('数据请求成功')
 				this.swiperList = res.message
 			},
+			//https://uniapp.dcloud.net.cn/api/router.html
 			switchToCateTab(){
 				uni.switchTab({
 					url:'/pages/cate/cate'
 				})
+			},
+			//https://uniapp.dcloud.net.cn/api/router.html
+			navitageToDetail(){
+				uni.navigateTo({
+					url:'/subpkg/goods_detail/goods_detail'
+				})
+			},
+			/*
+				获取系统信息：https://uniapp.dcloud.net.cn/api/system/info.html#getsysteminfosync
+				当时这个项目用到了：windowHeight：即可使用窗口高度，是指顶部导航栏与底部tabbar之间的距离
+				这个方法返回的信息非常多，具体进官网看看
+			**/
+			getSystemInfo(){
+				let data = uni.getSystemInfoSync()
+				console.log("系统信息",data)
+			},
+			doCompClick(){
+				console.log("组件被点击了--")
+				uni.$showMsg("组件被点击了")
 			}
 		}
 	}
@@ -93,7 +140,12 @@
 		padding: 10rpx;
 	}
 	.two-view{
-		background-color: cyan;
+		background-color: #D9FDF0;
 		padding: 10rpx;
+	}
+	.line-view{
+		background-color: #D0CECE;
+		height: 1px;
+		width: 100%;
 	}
 </style>
