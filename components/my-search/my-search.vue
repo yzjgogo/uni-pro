@@ -1,6 +1,6 @@
 <template>
 	<view style="background-color: chartreuse;">
-		我是自定义的组件:{{info}}
+		我是自定义的组件:{{info}},点击这个绿色区域跳转到搜索页，看uni-app的官方扩展组件uni-search-bar的具体用法
 	</view>
 </template>
 

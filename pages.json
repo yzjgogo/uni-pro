@@ -30,6 +30,23 @@
 		"pages": [{
 			"path": "goods_detail/goods_detail",
 			"style": {}
+		},
+		{
+			"path" : "search/search",
+			"style" : {}
+		},
+		{
+			"path" : "more/more",
+			"style" : 
+			{
+				"enablePullDownRefresh" : true,
+				"backgroundColor": "#F8F8F8",
+				"onReachBottomDistance": 150
+			}
+		},
+		{
+			"path" : "for_store/for_store",
+			"style" :  {}
 		}]
 	}],
 	//5，"tabBar"对应微开里的app.json里的"tabBar"，用于配置tabBar

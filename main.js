@@ -2,7 +2,8 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
-
+import store from '@/store/store.js'
+//request-miniprogram官网：https://www.npmjs.com/package/@escook/request-miniprogram
 //使用request-miniprogram步骤2：导入网络请求的包
 import {$http} from '@escook/request-miniprogram'
 //使用request-miniprogram步骤3：uni类似原生小程序的wx对象，类似前端的window对象，是全局的。把$http挂到uni顶级对象上方便使用
@@ -34,7 +35,8 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 app.$mount()
 // #endif
