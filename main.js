@@ -33,7 +33,7 @@ uni.$showMsg = function(title='数据请求失败',duration=1500){
 Vue.config.productionTip = false
 
 App.mpType = 'app'
-
+// Vuex使用步骤2：在main.js中导入步骤1中的store，然后挂在当Vue实例中
 const app = new Vue({
     ...App,
 	store

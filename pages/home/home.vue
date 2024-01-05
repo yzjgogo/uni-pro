@@ -1,7 +1,8 @@
 <template>
-	<view id="page_container">
+	<view id="page_container" style="padding-bottom: 50px;">
 
-		<view style="position: sticky;top: 0px;height: 50px;width: 100%;background-color: green;z-index: 999;">吸顶效果演示</view>
+		<view style="position: sticky;top: 0px;height: 50px;width: 100%;background-color: green;z-index: 999;">吸顶效果演示
+		</view>
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
 			<swiper-item v-for="(item,i) in swiperList" :key="i">
 				<!-- 声明式导航 open-type='navigate' -->
@@ -111,8 +112,51 @@
 			<button size="mini" @click="toDetial">去学习</button>
 		</view>
 		<view class="one-view">
-			<view>29，vuex的用法</view>
+			<view>29，vuex的用法：参考，Vuex使用步骤1234</view>
 			<button size="mini" @click="toVUEX">去学习</button>
+		</view>
+		<view class="two-view">
+			<view>30，@关键字用于路径中访问项目根目录，例如main.js中store的导入；store.js中cart的导入；</view>
+		</view>
+		<view class="one-view">
+			<view>31，给某个tabbar设置红点、数字等
+				<button size="mini" @click="setRedPointCount">给购物车设置红点数据</button>
+			</view>
+		</view>
+		<view class="two-view">
+			<uni-swipe-action>
+				<uni-swipe-action-item :left-options="options" :right-options="options" @click="doSwipeClick">
+					<view style="width: 100%;background-color: yellow;">32，支持左右滑动的组件：<br>
+						更多详细用法参考官网：https://uniapp.dcloud.net.cn/component/uniui/uni-swipe-action.html <br>
+						还支持插槽slot呢！
+					</view>
+				</uni-swipe-action-item>
+			</uni-swipe-action>
+		</view>
+		<view class="one-view">
+			33，uni-ui扩展组件数字输入框：https://uniapp.dcloud.net.cn/component/uniui/uni-number-box.html，适用于电商app那种左减右加改变数量的组件
+			<uni-number-box v-model="box_num" :min="0" :max="10" @change="doMumberChange"></uni-number-box>
+		</view>
+		<view class="two-view">
+			34，radio和radio-group的用法：https://uniapp.dcloud.net.cn/component/radio.html，微信小程序同样也有
+			<radio :checked="false" color="#C00000"></radio>
+		</view>
+		<view class="one-view">
+			35,选择地址API:获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。<br>
+			https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html<br>
+			https://uniapp.dcloud.net.cn/api/other/choose-address.html#chooseaddress<br>
+			注意：在模拟器上只能选择模拟器预置好的那一个地址，且不能新增地址，因此最好用真机扫码操作,在真机上可以新增地址，可以选择地址，这些都是微信app提供的。<br>
+			<button size="mini" @click="getAddressCallback">回调方式获取地址</button>
+			<button size="mini" @click="getAddressAsync">异步调用同步化获取地址</button>
+			<button size="mini" @click="getAddressPromise">Promise标准方式获取地址</button>
+		</view>
+		<view class="two-view">
+			36,弹出小程序自带的弹窗
+			<button size="mini" @click="showDialog">弹窗</button>
+		</view>
+		<view class="one-view">
+			37,弹出小程序自带的设置页面
+			<button size="mini" @click="openSetting">设置</button>
 		</view>
 	</view>
 </template>
@@ -122,7 +166,14 @@
 		data() {
 			return {
 				//轮播图的数据列表
-				swiperList: []
+				swiperList: [],
+				options: [{
+					text: '删除',
+					style: {
+						backgroundColor: '#C00000'
+					}
+				}],
+				box_num: 2
 			};
 		},
 		//这个onLoad对应微信小程序的onLoad
@@ -204,23 +255,123 @@
 				微信官网：https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
 				uni-app官网：https://uniapp.dcloud.net.cn/api/media/image.html#previewimage
 			 */
-			doPreview(){
+			doPreview() {
 				// wx.previewImage({
 				uni.previewImage({
 					//当前点击放大图片所在索引
-					current:2,
+					current: 2,
 					//所有图片列表
-					urls:["https://img0.baidu.com/it/u=189729508,2250841752&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Ff308438a-fbc8-48ce-a7ec-fd389d60459b%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169302&t=c9c4f4e610e893681702a40338692f3f","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F1f0256fe-b59a-4aca-9b89-8f1ac61ac3aa%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169303&t=afbf199cd247736ad4678ac3f81bc59a","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw%2F3b26f478-341a-4549-85a5-fae4a0796346%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169335&t=e531fb52b2b6ade8af0b2cce91b5c53a"]
+					urls: ["https://img0.baidu.com/it/u=189729508,2250841752&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
+						"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Ff308438a-fbc8-48ce-a7ec-fd389d60459b%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169302&t=c9c4f4e610e893681702a40338692f3f",
+						"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F1f0256fe-b59a-4aca-9b89-8f1ac61ac3aa%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169303&t=afbf199cd247736ad4678ac3f81bc59a",
+						"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw%2F3b26f478-341a-4549-85a5-fae4a0796346%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1706169335&t=e531fb52b2b6ade8af0b2cce91b5c53a"
+					]
 				})
 			},
-			toDetial(){
+			toDetial() {
 				uni.navigateTo({
-					url:'/subpkg/goods_detail/goods_detail'
+					url: '/subpkg/goods_detail/goods_detail'
 				})
 			},
-			toVUEX(){
+			toVUEX() {
 				uni.navigateTo({
-					url:'/subpkg/for_store/for_store'
+					url: '/subpkg/for_store/for_store'
+				})
+			},
+			/**
+				给某个tabBar设置要显示的红点包含个数，
+				对应的还有：showTabBarRedDot({})只显示红点，不显示数字
+				微信小程序也有同样的方法
+				
+				参考官网：https://uniapp.dcloud.net.cn/api/ui/tabbar.html#settabbarbadge
+			 */
+			setRedPointCount() {
+				//微信小程序也有同样的方法
+				// wx.setTabBarBadge({
+				uni.setTabBarBadge({
+					index: 2, //tabbar的索引，从0开始
+					text: '99' //只能是字符串
+				})
+			},
+			doSwipeClick(e) {
+				//策划点击事件有删除监听，其中参数e，可以知道点击了哪个侧边按钮
+				console.log("点击左边还是右边", e) //e.position = left | right
+			},
+			doMumberChange(e) {
+				console.log(e)
+			},
+			/**
+			 * 要使用这个方法，需要在微信开发者工具的app.json中进行声明，参考：https://developers.weixin.qq.com/community/develop/doc/000a02f2c5026891650e7f40351c01
+				在app.json中声明方式如下：
+				"requiredPrivateInfos": [
+					"chooseAddress"
+				]
+				
+				对于uni-app则需要再XBuilder中->项目的manifest.json->源码视图->"mp-weixin"下->
+				"requiredPrivateInfos": [
+					"chooseAddress"
+				]
+				
+				uni(wx).chooseAddress()支持Promise风格调用，微信官方文档有说明：https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
+				参考：getAddressAsync() 和 getAddressPromise()
+			 */
+			getAddressCallback() {
+				console.log("执行获取地址")
+				// wx.chooseAddress({
+				uni.chooseAddress({
+					success(res) {
+						console.log("成功", res)
+					},
+					fail(err) {
+						console.log("失败", err)
+					},
+					complete(data) {
+						console.log("完成", data)
+					}
+				})
+			},
+			async getAddressAsync() {
+				//实际上uni.chooseAddress返回的是一个Promise对象
+				var result = await uni.chooseAddress()
+				console.log("获取结果：", result)
+			},
+
+			getAddressPromise() {
+				uni.chooseAddress().then(res => {
+					console.log("promise成功", res)
+				}).catch(err => {
+					console.log("promise失败", err)
+				})
+			},
+			/**
+				https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html
+				https://uniapp.dcloud.net.cn/api/ui/prompt.html#showmodal
+				
+				同样支持Promise写法，因此你可以用async/await 或者then/catch
+			 */
+			showDialog() {
+				// wx.showModal({
+				uni.showModal({
+					content: '检测到您没打开地址权限，是否去设置打开？',
+					confirmText: '确定',
+					cancelText: '取消'
+				}).then(res => {
+					const [err, result] = res
+					console.log('回调结果', res, err, result)
+				})
+			},
+			/**
+			 * openSetting同样支持Promise风格，可以用回调，也可以用async/await 或者then/catch
+			 */
+			openSetting() {
+				// wx.openSetting({
+				uni.openSetting({
+					success: (settingResult) => {
+						console.log("设置成功", settingResult)
+					},
+					fail: (err) => {
+						console.log("设置失败", err)
+					}
 				})
 			}
 		}
