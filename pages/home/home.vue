@@ -142,7 +142,7 @@
 			<radio :checked="false" color="#C00000"></radio>
 		</view>
 		<view class="one-view">
-			35,选择地址API:获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。<br>
+			35，选择地址API:获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。<br>
 			https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html<br>
 			https://uniapp.dcloud.net.cn/api/other/choose-address.html#chooseaddress<br>
 			注意：在模拟器上只能选择模拟器预置好的那一个地址，且不能新增地址，因此最好用真机扫码操作,在真机上可以新增地址，可以选择地址，这些都是微信app提供的。<br>
@@ -151,12 +151,22 @@
 			<button size="mini" @click="getAddressPromise">Promise标准方式获取地址</button>
 		</view>
 		<view class="two-view">
-			36,弹出小程序自带的弹窗
+			36，弹出小程序自带的弹窗
 			<button size="mini" @click="showDialog">弹窗</button>
 		</view>
 		<view class="one-view">
-			37,弹出小程序自带的设置页面
+			37，弹出小程序自带的设置页面
 			<button size="mini" @click="openSetting">设置</button>
+		</view>
+		<view class="one-view">
+			38，获取微信小程序用户在微信的用户信息
+			<button size="mini" open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>
+		</view>
+		<view class="two-view">
+			39，视频中讲到的微信支付，其中设计到了wx/uni.requestPayment({})的使用，参考：uni-shop_day5.pdf -> 10.5微信支付 -> 10.5.5发起微信支付
+		</view>
+		<view class="one-view">
+			40，发布到微信小程序或者打包成Android的apk；参考：uni-shop_day5.pdf -> 11发布小程序。按照这个流程或者结合原视频可以完整的发布微信小程序。
 		</view>
 	</view>
 </template>
@@ -333,6 +343,7 @@
 			async getAddressAsync() {
 				//实际上uni.chooseAddress返回的是一个Promise对象
 				var result = await uni.chooseAddress()
+				// var result = await uni.chooseAddress().catch(err=>err) 如果需要catch我们还可以这样，因为catch本身也是返回Promise
 				console.log("获取结果：", result)
 			},
 
@@ -373,6 +384,10 @@
 						console.log("设置失败", err)
 					}
 				})
+			},
+			getUserInfo(e){
+				console.log("获取用户信息",e)
+				
 			}
 		}
 	}
